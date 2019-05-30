@@ -3,14 +3,15 @@
 Sokalize is a Python script that takes a matrix of multistate data and returns the same data recoded as binary characters. It accepts matrices in the NEXUS format and can export the recoded data into the NEXUS, TNT, and Phylip formats. Characters can be ordered or unordered, and contain polymorphisms. More complex character trees and step matrices are not supported.
 
 ## Installation
+
 This script requires Python 3 and numpy.
 
 You can install Python from https://www.python.org/. This script was developed with Python version 3.6. It will *not* work with Python 2.
 
 After installing Python, you can proceed to install numpy. The easiest way of doing this is opening the Command Prompt (on Windows) or the Terminal (on Mac) and executing the following command:
 
-```shell
-    pip install numpy
+```console
+pip install numpy
 ```
 
 On Windows, you may need to open the Command Prompt with administrator privileges. This can be done by right-clicking on the Command Prompt icon and choosing "Run as administrator" from the context menu. If you find other problems, you can also download an installer for numpy from https://pypi.python.org/pypi/numpy.
@@ -25,13 +26,13 @@ The script is excecuted with commands on the Command Prompt. The following examp
 
 The simplest way of using the script is with the following command:
 
-```shell
+```console
 python sokalize.py example.nex
 ```
 
 Where "example.nex" is the NEXUS file containing the multistate character matrix to recode. With that command, the script is going to print the reocded matrix in NEXUS format in the Command Prompt. In order to save the recoded matrix to a file, one can add the -o option followed by a name for the output file ("example_out.nex"), like this:
 
-```shell
+```console
 python sokalize.py example.nex -o example_out.nex
 ```
 
@@ -39,13 +40,13 @@ If the "example_out.nex" file did not exist, it will be created. Otherwise, it w
 
 Additional options of the script can be displayed with the following command:
 
-```shell
+```console
 python sokalize.py --help
 ```
 
 Which prints out the following information:
 
-"""shell
+```console
 optional arguments:
   -h, --help            show this help message and exit
   -o [OUTPUT], --output [OUTPUT]
@@ -61,11 +62,11 @@ optional arguments:
                         Remove invariant characters after recoding
   -m, --remove_missing  Remove characters without coded data (all missing or
                         inapplicable) after recoding
-"""
+``` 
 
-All these arguments may be combined (except -O and -U together) to obtain the desired output. For instance, the following command would be appropriate to produce a binary matrix for analysis with RAxML:
+All these arguments may be combined (except -O and -U together) to obtain the desired output. For instance, the following command would be appropriate to produce a binary matrix for analysis with RAxML or IQTREE:
 
-```shell
+```console
 python sokalize.py example.nex -f phylip -o example_out.phy -i -m
 ```
 
@@ -80,19 +81,21 @@ This script targets the NEXUS format as implemented by Mesquite, with some limit
 There are a few things that you should know about how this script parses NEXUS files:
 
 1) Species names ("taxa") can contain only the following symbols:
-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-.,/_
+0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-.,/_'
 
 2) In the matrix block, species names must be separated from the data by white space. Note that Mesquite sometimes omits spaces if the species name is between single quote marks.
 
 3) The matrix must be in the 'sequential' format. It cannot be interleaved.
 
-4) Only the following symbols can used to represent character states: """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"""
+4) Only the following symbols can used to represent character states:
+0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+
 Inapplicables are always represented by -, and missing data by ?
 
-6) The states of ordered characters must be represented by the symbols shown in (3), *in that exact order*.
+5) The states of ordered characters must be represented by the symbols shown in (3), *in that exact order*.
 
-7) If you have intermediate states for which there are no observations in your matrix (e.g. only observations for states 0 and 2), the unobserved intermediate state (1, in the previous example) will be included in the recoded matrix. Those intermediate states can be removed from the recoded matrix with the -i option.
+6) If you have intermediate states for which there are no observations in your matrix (e.g. only observations for states 0 and 2), the unobserved intermediate state (1, in the previous example) will be included in the recoded matrix. Those intermediate states can be removed from the recoded matrix with the -i option.
 
-8) You can specify which characters are ordered or unordered in a standard ASSUMPTIONS block. This script can understand hyphens to denote character ranges (e.g. 1-3 means characters 1, 2, and 3), but not the '/' notation used sometimes by Mesquite. If '/' is found in the ASSUMPTIONS block, it will be ignored.
+7) You can specify which characters are ordered or unordered in a standard ASSUMPTIONS block. This script can understand hyphens to denote character ranges (e.g. 1-3 means characters 1, 2, and 3), but not the '/' notation used sometimes by Mesquite. If '/' is found in the ASSUMPTIONS block, it will be ignored.
 
-9) There should be only one CHARACTERS or DATA block, and only one ASSUMPTIONS block in your file. TAXA blocks are not necessary and are not read by this script.
+8) There should be only one CHARACTERS or DATA block, and only one ASSUMPTIONS block in your file. TAXA blocks are not necessary and are not read by this script.
