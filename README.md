@@ -9,7 +9,7 @@ You can install Python from https://www.python.org/. This script was developed w
 
 After installing Python, you can proceed to install numpy. The easiest way of doing this is opening the Command Prompt (on Windows) or the Terminal (on Mac) and executing the following command:
 
-```
+```shell
     pip install numpy
 ```
 
@@ -25,13 +25,13 @@ The script is excecuted with commands on the Command Prompt. The following examp
 
 The simplest way of using the script is with the following command:
 
-```
+```shell
 python sokalize.py example.nex
 ```
 
 Where "example.nex" is the NEXUS file containing the multistate character matrix to recode. With that command, the script is going to print the reocded matrix in NEXUS format in the Command Prompt. In order to save the recoded matrix to a file, one can add the -o option followed by a name for the output file ("example_out.nex"), like this:
 
-```
+```shell
 python sokalize.py example.nex -o example_out.nex
 ```
 
@@ -39,13 +39,13 @@ If the "example_out.nex" file did not exist, it will be created. Otherwise, it w
 
 Additional options of the script can be displayed with the following command:
 
-```
+```shell
 python sokalize.py --help
 ```
 
 Which prints out the following information:
 
-```
+"""shell
 optional arguments:
   -h, --help            show this help message and exit
   -o [OUTPUT], --output [OUTPUT]
@@ -61,11 +61,11 @@ optional arguments:
                         Remove invariant characters after recoding
   -m, --remove_missing  Remove characters without coded data (all missing or
                         inapplicable) after recoding
-```
+"""
 
 All these arguments may be combined (except -O and -U together) to obtain the desired output. For instance, the following command would be appropriate to produce a binary matrix for analysis with RAxML:
 
-```
+```shell
 python sokalize.py example.nex -f phylip -o example_out.phy -i -m
 ```
 
@@ -86,14 +86,13 @@ There are a few things that you should know about how this script parses NEXUS f
 
 3) The matrix must be in the 'sequential' format. It cannot be interleaved.
 
-4) Only the following symbols can used to represent character states: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
-
+4) Only the following symbols can used to represent character states: """0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"""
 Inapplicables are always represented by -, and missing data by ?
 
-5) The states of ordered characters must be represented by the symbols shown in (3), *in that exact order*.
+6) The states of ordered characters must be represented by the symbols shown in (3), *in that exact order*.
 
-6) If you have intermediate states for which there are no observations in your matrix (e.g. only observations for states 0 and 2), the unobserved intermediate state (1, in the previous example) will be included in the recoded matrix. Those intermediate states can be removed from the recoded matrix with the -i option.
+7) If you have intermediate states for which there are no observations in your matrix (e.g. only observations for states 0 and 2), the unobserved intermediate state (1, in the previous example) will be included in the recoded matrix. Those intermediate states can be removed from the recoded matrix with the -i option.
 
-7) You can specify which characters are ordered or unordered in a standard ASSUMPTIONS block. This script can understand hyphens to denote character ranges (e.g. 1-3 means characters 1, 2, and 3), but not the '/' notation used sometimes by Mesquite. If '/' is found in the ASSUMPTIONS block, it will be ignored.
+8) You can specify which characters are ordered or unordered in a standard ASSUMPTIONS block. This script can understand hyphens to denote character ranges (e.g. 1-3 means characters 1, 2, and 3), but not the '/' notation used sometimes by Mesquite. If '/' is found in the ASSUMPTIONS block, it will be ignored.
 
-8) There should be only one CHARACTERS or DATA block, and only one ASSUMPTIONS block in your file. TAXA blocks are not necessary and are not read by this script.
+9) There should be only one CHARACTERS or DATA block, and only one ASSUMPTIONS block in your file. TAXA blocks are not necessary and are not read by this script.
